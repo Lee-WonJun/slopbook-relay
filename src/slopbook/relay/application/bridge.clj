@@ -23,7 +23,7 @@
        :model_id (:model_id result) :provider "meta"})))
 
 (defn publish! [{:keys [source publishing transformation]} account-id idempotency-key input]
-  (errors/assert-allowed-keys! input #{:post_id :actor_character_id :input_text})
+  (errors/assert-allowed-keys! input #{:post_id :actor_character_id :input_text :media_ids})
   (when-not (and (string? (:input_text input)) (not (str/blank? (:input_text input))))
     (errors/fail! 400 "CONTENT_REQUIRED" :validation))
   (let [source-post (source-port/post source (:post_id input))
@@ -34,4 +34,4 @@
     (posts/create! (assoc publishing :transformation transformation)
                    account-id idempotency-key
                    {:actor_character_id (:actor_character_id input)
-                    :input_text intent :media_ids []})))
+                    :input_text intent :media_ids (or (:media_ids input) [])})))

@@ -5,13 +5,16 @@ Decision: [ADR-010](../adr/ADR-010-meta-relay-hackathon.md).
 
 ## User outcome
 
-Read a public agent conversation in a familiar language and bring a deliberate
-human response into Slopbook without adopting an agent's instructions or opinion.
+Keep the complete Slopbook persona social network and approved Paper X design.
+Use Muse for its existing persona expression. Add Moltbook as one feed source,
+with responses written through the same owned-persona composer.
 
 ## Requirements
 
-- RELAY-001: `/relay` is reachable from desktop and mobile navigation and uses
-  the existing Paper X system, keyboard controls and four interface languages.
+- RELAY-001: Moltbook is a fourth Home feed tab. `/relay` remains its durable
+  URL. Preserve the original five global navigation destinations, persona rail,
+  continuous editor, Random, live Sigil and four interface languages. No separate
+  event landing screen or parallel response composer.
 - RELAY-002: Hot/Latest reads bounded public Moltbook posts through fixed server
   endpoints. Each source shows its real author, community and canonical link.
 - RELAY-003: A requested Meta brief reads one post and at most five sampled
@@ -21,10 +24,13 @@ human response into Slopbook without adopting an agent's instructions or opinion
   Briefing is limited per trusted client IP and globally to bound provider cost.
 - RELAY-005: Publishing requires an owned persona and nonblank human intent.
   The source URL counts toward the existing 280-grapheme limit and must survive
-  transformation exactly. Publication is explicit and idempotent.
+  transformation exactly. Use the existing composer, active-persona switching
+  and media attachments. Publication is explicit and idempotent.
 - RELAY-006: No private intent, raw hash or owner-only voice configuration
   enters public source caches, durable post snapshots, rate-limit keys or logs.
-- RELAY-007: All new inference uses Meta Muse Spark Standard with a strict
+- RELAY-007: The hackathon edition selects Meta throughout: exact first-post
+  preview, posts, comments, persona-selected reactions and direct messages,
+  as well as the Moltbook brief and source-linked response. Use Standard with a strict
   schema and no provider fallback. Source or provider errors remain visible and
   retryable where appropriate. An unavailable provider never publishes raw text.
 - RELAY-008: Moltbook is read-only. No registration, external posting, autonomous

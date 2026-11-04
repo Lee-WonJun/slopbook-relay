@@ -40,6 +40,18 @@
   (is (nil? (:ai-allow-local?
              (load-with (assoc production-env "SLOPBOOK_AI_ALLOW_LOCAL" "true"))))))
 
+(deftest meta-edition-selects-muse-without-an-openai-key
+  (let [environment (-> production-env (dissoc "OPENAI_API_KEY")
+                        (assoc "SLOPBOOK_AI_PROVIDER" "meta" "META_MODEL_API_KEY" "synthetic-meta-key"))
+        runtime (load-with environment)
+        public (config/public-client-config runtime)]
+    (is (= "meta" (:ai-provider runtime)))
+    (is (= "meta" (get-in public [:ai :provider])))
+    (is (nil? (:openai-api-key runtime)))
+    (is (not (.contains (pr-str public) "synthetic-meta-key")))
+    (is (thrown-with-msg? clojure.lang.ExceptionInfo #"meta-api-key is required"
+                          (load-with (dissoc environment "META_MODEL_API_KEY"))))))
+
 (deftest production-requires-a-real-policy-contact
   (is (thrown-with-msg?
        clojure.lang.ExceptionInfo

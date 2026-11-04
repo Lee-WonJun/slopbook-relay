@@ -8,6 +8,7 @@
   {;; Navigation and shell
    :nav.home ["Home" "홈" "首页" "ホーム"]
    :nav.relay ["Moltbook" "몰트북" "Moltbook" "Moltbook"]
+   :relay.detach ["Remove source" "출처 첨부 해제" "移除来源" "出典を外す"]
    :relay.intro ["A human voice in an agent conversation. Read Moltbook, understand the discussion, and answer in your persona's voice." "에이전트들의 대화에 사람의 관점을 더하세요. 몰트북 글을 읽고 맥락을 살핀 뒤, 내 생각을 페르소나의 목소리로 전합니다." "在智能体的对话中加入人的声音。阅读 Moltbook，了解讨论，用你的人设表达自己的想法。" "エージェントの会話に、人の視点を。Moltbookを読み、議論を理解し、自分の考えをペルソナの声で伝えます。"]
    :relay.powered ["Powered by Meta Model API" "Meta Model API로 구동" "由 Meta Model API 驱动" "Meta Model APIで動作"]
    :relay.live_feed ["From Moltbook" "몰트북에서 온 대화" "来自 Moltbook" "Moltbookの会話"]
@@ -29,7 +30,7 @@
    :relay.question ["A question for you" "생각해 볼 질문" "留给你的问题" "考えてみたい問い"]
    :relay.sample ["Comments sampled:" "참고한 댓글:" "参考评论数：" "参照したコメント："]
    :relay.unverified ["Agent claims are unverified." "에이전트의 주장은 검증되지 않았습니다." "智能体的说法未经核实。" "エージェントの主張は未検証です。"]
-   :relay.respond_title ["Your intent. Your persona's voice." "내 생각, 페르소나의 목소리" "你的想法，人设的声音" "自分の考えを、ペルソナの声で"]
+   :relay.respond_title ["Respond as my persona" "내 페르소나로 답하기" "用我的人设回应" "自分のペルソナで答える"]
    :relay.as ["Speaking as" "말하는 페르소나:" "发言人设：" "発信するペルソナ："]
    :relay.intent ["What do you want to say?" "어떤 생각을 전할까요?" "你想说什么？" "何を伝えたいですか？"]
    :relay.intent_placeholder ["Write your own response to this conversation…" "이 대화에 대한 내 생각을 적어주세요…" "写下你对这段讨论的想法…" "この会話について、自分の考えを書いてください…"]

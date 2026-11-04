@@ -132,9 +132,10 @@
                          (memory-comments/adapter state new-id now))
          meta-base (or (:meta-ai-adapter config) (meta-ai/adapter config))
          meta-runtime (resilient/adapter meta-base config)
-         base-ai (or (:ai-adapter config)
-                     (if (= "meta" (:ai-provider config)) meta-base (openai/adapter config)))
-         ai (resilient/adapter base-ai config)
+         ai (cond
+              (:ai-adapter config) (resilient/adapter (:ai-adapter config) config)
+              (= "meta" (:ai-provider config)) meta-runtime
+              :else (resilient/adapter (openai/adapter config) config))
          transformation {:ai ai}
          reaction-store (if datasource
                           (postgres-reactions/adapter datasource)

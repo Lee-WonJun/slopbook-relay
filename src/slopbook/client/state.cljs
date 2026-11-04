@@ -930,30 +930,55 @@
 (rf/reg-event-db :compose/set-text (fn [db [_ value]] (assoc-in db [:compose :text] value)))
 
 (rf/reg-event-fx
+ :compose/source
+ (fn [{:keys [db]} [_ source]]
+   {:db (-> db
+            (assoc :route :compose)
+            (assoc-in [:compose :source] (select-keys source [:id :url :title]))
+            (assoc-in [:compose :status] :idle)
+            (assoc-in [:compose :error] nil))
+    :history/push (get route-paths :compose)}))
+
+(rf/reg-event-db
+ :compose/clear-source
+ (fn [db _] (update db :compose dissoc :source :relay-request)))
+
+(rf/reg-event-fx
  :compose/submit
  (fn [{:keys [db]} _]
    (let [text (get-in db [:compose :text])
+         source (get-in db [:compose :source])
          actor (:active-character-id db)
-         media (get-in db [:media :post])]
-     (if (or (empty? text) (nil? actor) (> (grapheme/length text) 280))
+         media (get-in db [:media :post])
+         source-payload (when source {:post_id (:id source) :actor_character_id actor
+                                     :input_text text :media_ids (ready-media-ids media)})
+         previous (get-in db [:compose :relay-request])
+         request-key (when source (if (= source-payload (:payload previous))
+                                   (:key previous) (api/idempotency-key)))]
+     (if (or (empty? text) (nil? actor)
+             (> (grapheme/length (str text (when source (str "\n" (:url source))))) 280))
        {:db (assoc-in db [:compose :error] (tr db :compose.invalid))}
        (if (media-pending? media)
          {:db (assoc-in db [:compose :error] (tr db :media.processing))}
-       {:db (assoc db :compose {:text text :status :loading :error nil})
-        :api {:promise (api/create-post {:actor_character_id actor :input_text text
-                                        :media_ids (ready-media-ids media)})
+       {:db (update db :compose assoc :status :loading :error nil
+                    :relay-request (when source {:payload source-payload :key request-key}))
+        :api {:promise (if source
+                         (api/request "POST" "/api/v1/relay/posts" source-payload request-key)
+                         (api/create-post {:actor_character_id actor :input_text text
+                                           :media_ids (ready-media-ids media)}))
               :success [:compose/success]
               :failure [:compose/failure]}})))))
 
 (rf/reg-event-fx
  :compose/success
  (fn [{:keys [db]} [_ post]]
-   {:db (-> db
+   (cond-> {:db (-> db
             (assoc :compose {:text "" :status :success :error nil})
             (assoc-in [:media :post] [])
             (update-in [:feed :items] #(vec (cons post %)))
             (assoc :announcement (tr db :compose.success)))
-    :media/revoke (get-in db [:media :post])}))
+    :media/revoke (get-in db [:media :post])}
+     (get-in db [:compose :source]) (assoc :dispatch [:thread/open post]))))
 
 (rf/reg-event-db
  :compose/failure

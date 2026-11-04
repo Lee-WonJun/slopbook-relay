@@ -69,7 +69,6 @@
 
 (def nav-items
   [[:feed "⌂" :nav.home]
-   [:relay "↔" :nav.relay]
    [:search "⌕" :nav.search]
    [:notifications "◌" :nav.notifications]
    [:messages "✉" :nav.messages]
@@ -91,7 +90,8 @@
     [:button.nav-button
      {:type "button"
       :aria-label accessible-label
-      :aria-current (when (= route (:route db)) "page")
+      :aria-current (when (or (= route (:route db))
+                              (and (= route :feed) (= :relay (:route db)))) "page")
       :on-click #(rf/dispatch [:navigate route])}
      [:span.nav-icon {:aria-hidden "true"} icon]
      [:span.nav-label (t db key)]
@@ -555,6 +555,8 @@
 (defn composer [db embedded?]
   (let [current (active-character db)
         text (get-in db [:compose :text])
+        source (get-in db [:compose :source])
+        length (grapheme/length (str text (when source (str "\n" (:url source)))))
         status (get-in db [:compose :status])]
     (cond
       (= :loading (get-in db [:me :status]))
@@ -603,6 +605,14 @@
         [:div
          [:div.display-name (:display_name current)]
          [:div.handle (str "@" (:handle current) " · " (str/upper-case (:output_language current)))]]
+        (when source
+          [:div.composer-source
+           [:a {:href (:url source) :target "_blank" :rel "noopener noreferrer"}
+            [:span.handle (t db :relay.live_feed)]
+            [:strong (:title source)]]
+           [:button.icon-button {:type "button" :aria-label (t db :relay.detach)
+                                 :disabled (= :loading status)
+                                 :on-click #(rf/dispatch [:compose/clear-source])} "×"]])
         [ime/field :textarea
          {:name "post-intent"
           :placeholder (t db :compose.placeholder)
@@ -613,23 +623,32 @@
         (when-let [error (get-in db [:compose :error])]
           [:div.inline-error {:role "alert"} error])
         [:div.composer-footer
-         [:span.counter (str (grapheme/length text) " / 280")]
+         [:span.counter (str length " / 280")]
          [:button.primary-button
-         {:type "button" :disabled (or (= :loading status) (empty? text))
+         {:type "button" :disabled (or (= :loading status) (str/blank? text) (> length 280))
            :on-click #(rf/dispatch [:compose/submit])}
           (if (= :loading status) (t db :compose.transforming) (t db :compose.publish))]]]])))
 
 (defn feed-view [db]
+  (let [moltbook? (= :relay (:route db))]
   [:<>
    [page-header db (t db :feed.title) nil]
    [status-banner db]
-   [:div.feed-tabs {:role "tablist" :aria-label (t db :feed.tabs_label)}
-    (for [[mode key] [[:latest :feed.latest] [:hot :feed.hot] [:following :feed.following]]]
+   [:div.feed-tabs.four-tabs {:role "tablist" :aria-label (t db :feed.tabs_label)}
+    (for [[mode key] [[:latest :feed.latest] [:hot :feed.hot] [:following :feed.following]
+                     [:moltbook :nav.relay]]]
       ^{:key mode}
       [:button.tab-button
-       {:type "button" :role "tab" :aria-selected (= mode (:feed-mode db))
-        :on-click #(rf/dispatch [:feed/load mode])}
+       {:type "button" :role "tab"
+        :aria-selected (if (= mode :moltbook) moltbook? (and (not moltbook?) (= mode (:feed-mode db))))
+        :on-click #(if (= mode :moltbook)
+                     (rf/dispatch [:navigate :relay])
+                     (do (when moltbook? (rf/dispatch [:navigate :feed]))
+                         (rf/dispatch [:feed/load mode])))}
        (t db key)])]
+   (if moltbook?
+     [relay/view db]
+     [:<>
    (when (feed-visibility/composer-visible?
           (get-in db [:auth :status])
           (true? (get-in db [:anonymous :configured])))
@@ -656,7 +675,7 @@
          :on-click #(rf/dispatch [:feed/load-more])}
         (if (= :loading-more (get-in db [:feed :status]))
           (t db :common.loading)
-          (t db :common.more))]])]])
+          (t db :common.more))]])]])]))
 
 (defn choice-list [db choices]
   [:div.chip-row
@@ -1702,9 +1721,7 @@
    [auth-notice db]
    (case (:route db)
      :feed [feed-view db]
-     :relay [:<>
-             [page-header db "Slopbook Relay" (t db :relay.powered)]
-             [relay/view db (active-character db)]]
+     :relay [feed-view db]
      :compose [:<> [page-header db (t db :compose.title) (t db :compose.subtitle)] [composer db false]]
      :persona [characters-view db]
      :profile [profile-view db]

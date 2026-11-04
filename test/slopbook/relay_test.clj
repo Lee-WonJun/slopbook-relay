@@ -48,6 +48,55 @@
     (is (not (str/includes? (get-in rewrite [:messages 0 :content]) "Private intent")))
     (is (not ((:available? (meta-ai/adapter {:openai-api-key "must-not-be-used"})))))))
 
+(deftest meta-edition-keeps-every-existing-persona-ai-operation
+  (let [calls (atom [])
+        adapter (meta-ai/adapter
+                 {:meta-api-key "synthetic-meta-key"}
+                 {:post-json
+                  (fn [{:keys [body]}]
+                    (let [request (json/read-value body)
+                          envelope (json/read-value (get-in request [:messages 1 :content]))
+                          result (dissoc (support/deterministic-ai-result envelope) :model_id :provider)]
+                      (swap! calls conj {:model (:model request) :envelope envelope})
+                      {:status 200
+                       :body (json/write-value {:choices [{:finish_reason "stop"
+                                                          :message {:content (json/write-value result)}}]})}))})
+        {:keys [app]} (system/create-system (-> support/test-config
+                                               (dissoc :ai-adapter)
+                                               (assoc :ai-provider "meta" :meta-ai-adapter adapter)))
+        rotor "4ad27960-1938-4f45-8a65-340f31c82292"
+        moss "64dc3c7a-2a5c-497b-83d5-5ac7b5d89919"
+        post-id "a81bf6c2-49ad-4ff2-aee3-4f144d0df2a3"
+        send! (fn [path body key]
+                (app (support/request :post path body (support/write-headers-for (str "019f-meta-" key)))))
+        draft {:handle "muse_persona_test" :display_name "Muse Persona" :output_language "en"
+               :persona_public {:schema_version 1 :catalog_version 2
+                                :what_are_you [{:id "helicopter"}] :archetypes [{:id "wanderer"}]
+                                :traits [{:id "curious"} {:id "playful"} {:id "bold"}]}
+               :persona_behavior {:schema_version 1 :voice_tones [{:id "playful"}]
+                                  :sentence_shape "short" :formality "casual"}}
+        preview (send! "/api/v1/character-greetings/preview" draft "meta-full-greeting")
+        post (send! "/api/v1/posts" {:actor_character_id rotor :input_text "A human post." :media_ids []}
+                    "meta-full-post")
+        comment (send! (str "/api/v1/posts/" post-id "/comments")
+                       {:actor_character_id rotor :input_text "A human comment." :media_ids []}
+                       "meta-full-comment")
+        reaction (send! (str "/api/v1/targets/post/" post-id "/reaction")
+                        {:actor_character_id moss} "meta-full-reaction")
+        conversation (send! "/api/v1/conversations" {:actor_character_id rotor :recipient_character_id moss}
+                            "meta-full-conversation")
+        message (send! (str "/api/v1/conversations/" (:id (support/response-body conversation)) "/messages")
+                       {:actor_character_id rotor :input_text "A private human message."} "meta-full-message")]
+    (doseq [[kind response] [[:greeting preview] [:post post] [:comment comment]
+                            [:reaction reaction] [:conversation conversation] [:message message]]]
+      (is (<= 200 (:status response) 201) (str kind " " (:body response))))
+    ;; Greetings use the ordinary post rewrite contract, then an exact preview token.
+    (is (= #{"rewrite.post" "rewrite.comment" "choose.reaction" "rewrite.message"}
+           (set (map #(get-in % [:envelope :task_kind]) @calls))))
+    (is (= 5 (count @calls)))
+    (is (every? #(= "muse-spark-1.3" (:model %)) @calls))
+    (is (= "playful" (get-in (first @calls) [:envelope :persona :behavior :voice_tones 0 :id])))))
+
 (deftest relay-briefs-are-public-and-bounded-with-no-durable-source-or-user-input
   (let [calls (atom [])
         fake (assoc support/deterministic-ai-adapter
@@ -97,6 +146,13 @@
     (is (= 1 (count @calls)))
     (is (str/ends-with? (:text (support/response-body first-response)) (:url public-source)))
     (is (not (str/includes? (pr-str @state) intent)))
+    (testing "the shared composer cannot silently drop an attachment"
+      (let [response (app (support/request :post "/api/v1/relay/posts"
+                                           (assoc body :media_ids ["00000000-0000-4000-8000-000000000087"])
+                                           (support/write-headers-for "relay-missing-media-key")))]
+        (is (= 409 (:status response)))
+        (is (= "MEDIA_NOT_READY" (get-in (support/response-body response) [:error :code])))
+        (is (= 1 (count @calls)))))
     (let [protected-app (:app (system/create-system
                               (assoc support/test-config :dev-auth? false :meta-ai-adapter fake
                                      :relay-source-adapter source-adapter)))]
