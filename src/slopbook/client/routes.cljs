@@ -2,6 +2,7 @@
 
 (def route-paths
   {:feed "/"
+   :relay "/relay"
    :compose "/compose"
    :persona "/characters"
    :search "/search"

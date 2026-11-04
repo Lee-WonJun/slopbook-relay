@@ -52,6 +52,9 @@
             [slopbook.social.adapters.out.postgres-notifications :as postgres-notifications]
             [slopbook.social.adapters.out.postgres-reactions :as postgres-reactions]
             [slopbook.social.adapters.out.postgres-reposts :as postgres-reposts]
+            [slopbook.relay.adapters.in.http :as relay-http]
+            [slopbook.relay.adapters.out.moltbook :as moltbook]
+            [slopbook.transformation.adapters.out.meta :as meta-ai]
             [slopbook.transformation.adapters.out.openai :as openai]
             [slopbook.transformation.adapters.out.resilient :as resilient]
             [slopbook.transformation.ports.rewriter :as rewriter-port]))
@@ -127,7 +130,10 @@
          comment-store (if datasource
                          (postgres-comments/adapter datasource)
                          (memory-comments/adapter state new-id now))
-         base-ai (or (:ai-adapter config) (openai/adapter config))
+         meta-base (or (:meta-ai-adapter config) (meta-ai/adapter config))
+         meta-runtime (resilient/adapter meta-base config)
+         base-ai (or (:ai-adapter config)
+                     (if (= "meta" (:ai-provider config)) meta-base (openai/adapter config)))
          ai (resilient/adapter base-ai config)
          transformation {:ai ai}
          reaction-store (if datasource
@@ -184,7 +190,12 @@
                              (social-http/routes social authenticate authenticate-optional config)
                              (notifications-http/routes social authenticate ws-hub)
                              (messaging-http/routes messaging authenticate)
-                             (media-http/routes media authenticate)))
+                             (media-http/routes media authenticate)
+                             (relay-http/routes
+                              {:source (or (:relay-source-adapter config) (moltbook/adapter))
+                               :generate! #(rewriter-port/rewrite! meta-runtime %)
+                               :publishing publishing :transformation {:ai meta-runtime}}
+                              authenticate config)))
         handler (ring/ring-handler
                  ;; The contract intentionally has both /notifications/read-all and
                  ;; /notifications/:id. Reitit quarantines that static/dynamic pair

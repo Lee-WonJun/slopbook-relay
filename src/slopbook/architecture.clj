@@ -3,7 +3,7 @@
             [clojure.string :as str]))
 
 (def bounded-contexts
-  #{"identity" "transformation" "publishing" "social" "messaging" "media" "trust"})
+  #{"identity" "transformation" "publishing" "social" "messaging" "media" "trust" "relay"})
 
 (def private-layers #{"domain" "ports" "adapters"})
 

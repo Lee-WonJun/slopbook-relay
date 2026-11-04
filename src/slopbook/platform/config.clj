@@ -58,6 +58,8 @@
          :auth-redirect-url (or (env "SLOPBOOK_AUTH_REDIRECT_URL")
                                 (str (str/replace public-base-url #"/$" "") "/auth/callback"))
          :openai-api-key (env "OPENAI_API_KEY")
+         :meta-api-key (env "META_MODEL_API_KEY")
+         :ai-provider (or (env "SLOPBOOK_AI_PROVIDER") "openai")
          :openai-data-policy (or (env "SLOPBOOK_OPENAI_DATA_POLICY") "standard")
          :openai-zdr-verified? (parse-bool (env "SLOPBOOK_OPENAI_ZDR_VERIFIED") false)
          :openai-models (->> (str/split (or (env "SLOPBOOK_AI_MODELS") "gpt-6-luna")
@@ -67,6 +69,8 @@
                                  vec)
          :ai-discovery? (parse-bool (env "SLOPBOOK_AI_DISCOVERY")
                                     (boolean (env "OPENAI_API_KEY")))}]
+    (when-not (contains? #{"openai" "meta"} (:ai-provider runtime-config))
+      (throw (ex-info "SLOPBOOK_AI_PROVIDER must be openai or meta" {})))
     (when-not (contains? #{"standard" "zdr"} (:openai-data-policy runtime-config))
       (throw (ex-info "SLOPBOOK_OPENAI_DATA_POLICY must be standard or zdr" {})))
     (when-not (= ["gpt-6-luna"] (:openai-models runtime-config))
@@ -77,9 +81,11 @@
       (when-not (= :postgres (:store runtime-config))
         (throw (ex-info "SLOPBOOK_STORE must be postgres in production" {})))
       (doseq [key [:database-url :supabase-url :supabase-publishable-key
-                   :supabase-jwks-url :supabase-issuer :openai-api-key
+                   :supabase-jwks-url :supabase-issuer
                    :cursor-secret :supabase-service-role-key :policy-contact-email]]
-        (required! runtime-config key environment)))
+        (required! runtime-config key environment))
+      (required! runtime-config (if (= "meta" (:ai-provider runtime-config)) :meta-api-key :openai-api-key)
+                 environment))
     (when (and (:policy-contact-email runtime-config)
                (not (re-matches #"[^\s@]+@[^\s@]+\.[^\s@]+"
                                 (:policy-contact-email runtime-config))))
@@ -108,6 +114,7 @@
 (defn public-client-config [config]
   (let [auth-enabled? (and (:supabase-url config) (:supabase-publishable-key config))]
     {:environment (:environment config)
+     :ai {:provider (or (:ai-provider config) "openai") :relay_provider "meta"}
      :policy {:contact_email (:policy-contact-email config)}
      :features {:media_uploads (boolean (:media-enabled? config))
                 :anonymous_comments (boolean (or (:turnstile-enabled? config)

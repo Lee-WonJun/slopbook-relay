@@ -1,3 +1,60 @@
+/* Relay reuses the Paper X surfaces, type, spacing and focus tokens. */
+.relay-header { padding: 24px 20px; border-bottom: 1px solid var(--border); }
+.relay-edition { color: var(--muted); font-size: 12px; margin-bottom: 16px; }
+.relay-header h1 { margin: 0; font-size: 32px; line-height: 1.1; letter-spacing: -1.2px; font-weight: 800; }
+.relay-tagline { margin: 8px 0 20px; font-size: 15px; font-weight: 600; }
+.relay-intro { margin: 0; max-width: 52ch; line-height: 1.6; }
+.relay-powered { margin-top: 16px; color: var(--primary); font-size: 13px; font-weight: 600; }
+.relay-feed-heading, .relay-section-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.relay-feed-heading { padding: 12px 20px; border-bottom: 1px solid var(--border); }
+.relay-feed-heading h2, .relay-section-heading h3 { margin: 0; font-size: 16px; }
+.relay-sort { display: flex; gap: 4px; }
+.relay-sort button { min-height: 44px; padding: 8px 12px; }
+.relay-sort [aria-pressed="true"] { color: var(--primary); background: var(--canvas); }
+.relay-source-list { list-style: none; padding: 0; margin: 0; max-height: 460px; overflow-y: auto; overscroll-behavior-y: contain; scrollbar-gutter: stable; }
+.relay-source { border-bottom: 1px solid var(--border); }
+.relay-source-button { display: grid; gap: 8px; width: 100%; text-align: left; padding: 16px 20px; border: 0; border-inline-start: 3px solid transparent; border-radius: 0; background: transparent; color: var(--text); cursor: pointer; }
+.relay-source-button:hover { background: var(--canvas); }
+.relay-source.is-selected .relay-source-button { border-inline-start-color: var(--primary); background: var(--canvas); }
+.relay-source-meta { font-size: 12px; line-height: 18px; color: var(--muted); overflow-wrap: anywhere; }
+.relay-source-title { font-weight: 650; font-size: 16px; line-height: 24px; overflow-wrap: anywhere; }
+.relay-source-open { float: right; color: var(--primary); margin-inline-start: 12px; }
+.relay-discussion { padding: 24px 20px; border-top: 2px solid var(--primary); }
+.relay-discussion-header h2 { margin: 8px 0 12px; font-size: 22px; line-height: 30px; overflow-wrap: anywhere; }
+.relay-source-link { display: inline-flex; align-items: center; min-height: 44px; color: var(--primary); font-size: 14px; }
+.relay-excerpt { margin-top: 12px; border-block: 1px solid var(--border); padding: 12px 0; }
+.relay-excerpt summary { cursor: pointer; min-height: 32px; font-weight: 500; }
+.relay-excerpt p { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 14px; line-height: 22px; max-height: 320px; overflow-y: auto; padding-inline-end: 12px; }
+.relay-brief, .relay-response { padding-top: 24px; }
+.relay-model { font-size: 12px; color: var(--muted); }
+.relay-help, .relay-provenance, .relay-footnote { font-size: 13px; color: var(--muted); line-height: 20px; }
+.relay-brief-result { margin-top: 16px; padding: 4px 0 4px 16px; border-inline-start: 2px solid var(--primary); }
+.relay-brief-item { margin-bottom: 20px; }
+.relay-brief-item h4 { font-size: 12px; color: var(--primary); font-weight: 700; margin: 0 0 4px; }
+.relay-brief-item p { margin: 0; font-size: 16px; line-height: 25px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.relay-response { margin-top: 24px; border-top: 1px solid var(--border); }
+.relay-response label { display: block; margin: 16px 0 8px; font-weight: 600; font-size: 14px; }
+.relay-response textarea { display: block; width: 100%; min-height: 120px; resize: vertical; border: 1px solid var(--border); border-radius: 8px; padding: 12px; background: var(--raised); color: var(--text); font: inherit; line-height: 24px; }
+.relay-actor { font-size: 13px; color: var(--muted); margin-bottom: 0; }
+.relay-publish-footer { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.relay-counter { color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+.relay-counter.is-invalid { color: var(--coral); }
+.relay-published p { white-space: pre-wrap; overflow-wrap: anywhere; }
+.relay-state { padding: 20px; }
+.relay-footnote { padding: 20px; margin: 0; border-top: 1px solid var(--border); }
+.relay-loading { padding: 20px 0 8px; }
+.relay-loading-line { display: block; width: 95%; height: 14px; margin-bottom: 12px; background: var(--border); opacity: .5; }
+.relay-loading-line:nth-child(2) { width: 85%; }
+.relay-loading-line:nth-child(3) { width: 65%; }
+.relay-loading p { color: var(--muted); font-size: 13px; }
+@media (max-width: 767px) {
+  .mobile-nav { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .relay-header, .relay-discussion { padding: 20px 12px; }
+  .relay-feed-heading { padding: 8px 12px; }
+  .relay-source-button { padding: 12px; }
+  .relay-header h1 { font-size: 28px; }
+}
+
 @font-face {
   font-family: "Slopbook Noto Sans EN";
   src: url("../fonts/noto-sans-ui-en.woff2") format("woff2");
@@ -1013,7 +1070,7 @@ mark { padding: 0 1px; background: color-mix(in srgb, var(--yellow) 35%, transpa
   min-height: 56px;
   border-top: 1px solid var(--border);
   background: var(--surface);
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(6, minmax(0, 1fr));
 }
 
 .mobile-nav .nav-button { min-height: 56px; justify-content: center; border: 0; border-radius: 0; padding: 0; }

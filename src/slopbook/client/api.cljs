@@ -58,6 +58,8 @@
 (defn ai-request? [method path]
   (and (= "POST" method)
        (or (= "/api/v1/posts" path)
+           (= "/api/v1/relay/posts" path)
+           (= "/api/v1/relay/brief" path)
            (= "/api/v1/character-greetings/preview" path)
            (boolean (re-find #"/comments$" path))
            (boolean (re-find #"/reaction$" path))
@@ -81,11 +83,16 @@
 
 (defn request
   ([method path] (request method path nil))
-  ([method path body]
-   (let [headers (request-headers method @access-token @dev-auth?)
+  ([method path body] (request method path body nil))
+  ([method path body idempotency]
+   (let [headers (cond-> (request-headers method @access-token @dev-auth?)
+                   idempotency (assoc "idempotency-key" idempotency))
          options (request-options method headers body)
          url (request-path method path (.now js/Date))
-         timeout-ms (when (ai-request? method path) ai-request-timeout-ms)]
+         timeout-ms (when (ai-request? method path)
+                      (if (contains? #{"/api/v1/relay/posts" "/api/v1/relay/brief"} path)
+                        25000
+                        ai-request-timeout-ms))]
      (fetch-json url options timeout-ms))))
 
 (defn feed-for

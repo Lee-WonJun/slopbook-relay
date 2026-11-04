@@ -38,10 +38,12 @@
   ([config ai-available?]
   (let [ai? (if ai-available?
               (boolean (ai-available?))
-              (boolean (and (:openai-api-key config)
+              (if (= "meta" (:ai-provider config))
+                (boolean (:meta-api-key config))
+                (boolean (and (:openai-api-key config)
                             (or (= "standard" (:openai-data-policy config))
                                 (and (= "zdr" (:openai-data-policy config))
-                                     (:openai-zdr-verified? config))))))]
+                                     (:openai-zdr-verified? config)))))))]
     {:mode (if ai? "normal" "read_only")
      :features {:public_read "available"
                 :ai_writes (if ai? "available" "unavailable")
@@ -68,6 +70,7 @@
      ["/ws/status" {:get (websocket/status-handler status-fn)}]
      ["/auth/callback" {:get app-entry-response}]
      ["/compose" {:get app-entry-response}]
+     ["/relay" {:get app-entry-response}]
      ["/characters" {:get app-entry-response}]
      ["/characters/:handle" {:get app-entry-response}]
      ["/search" {:get app-entry-response}]

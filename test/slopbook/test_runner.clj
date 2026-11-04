@@ -21,6 +21,7 @@
             [slopbook.qa-reaction-vocabulary-contract-test]
             [slopbook.social.application.relationships-test]
             [slopbook.system-test]
+            [slopbook.relay-test]
             [slopbook.tickets-test]
             [slopbook.transformation.adapters.out.openai-test]
             [slopbook.transformation.adapters.out.resilient-test]
@@ -49,6 +50,7 @@
                         'slopbook.media.adapters.out.image-processor-test
                                              'slopbook.social.application.relationships-test
                                              'slopbook.system-test
+                                             'slopbook.relay-test
                                              'slopbook.transformation.adapters.out.openai-test
                                              'slopbook.transformation.adapters.out.resilient-test
                                              'slopbook.transformation.domain.circuit-breaker-test

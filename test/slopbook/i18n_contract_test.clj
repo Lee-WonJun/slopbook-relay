@@ -19,7 +19,8 @@
 
 (defn used-interface-message-keys []
   (->> [(io/file "src/slopbook/client/app.cljs")
-        (io/file "src/slopbook/client/state.cljs")]
+        (io/file "src/slopbook/client/state.cljs")
+        (io/file "src/slopbook/client/relay.cljs")]
        (mapcat (fn [file]
                  (map second
                       (re-seq #"\((?:t|tr)\s+db\s+:([A-Za-z0-9_.-]+)"

@@ -13,6 +13,7 @@
             [slopbook.client.media :as media]
             [slopbook.client.randomizer :as randomizer]
             [slopbook.client.reaction-ui :as reaction-ui]
+            [slopbook.client.relay :as relay]
             [slopbook.client.state]
             [slopbook.client.turnstile :as turnstile]
             [slopbook.shared.domain.greeting :as greeting]))
@@ -68,6 +69,7 @@
 
 (def nav-items
   [[:feed "⌂" :nav.home]
+   [:relay "↔" :nav.relay]
    [:search "⌕" :nav.search]
    [:notifications "◌" :nav.notifications]
    [:messages "✉" :nav.messages]
@@ -1663,7 +1665,18 @@
         ^{:key heading}
         [:section.policy-section
          [:h2 (t db heading)]
-         [:p (t db body)]])
+         [:p (t db (if (= "meta" (get-in db [:client-config :ai :provider]))
+                     (case body
+                       :policy.privacy.share_body :policy.meta.provider_body
+                       :policy.ai.provider_body :policy.meta.provider_body
+                       body)
+                     body))]])
+      (when (contains? #{:privacy :ai-policy} route)
+        [:section.policy-section
+         [:h2 (t db :policy.relay.title)]
+         [:p (t db :policy.relay.body)]
+         [:a {:href "https://dev.meta.ai/legal/terms-of-service" :target "_blank" :rel "noopener noreferrer"}
+          "Meta Model API · " (t db :policy.ai.title)]])
       (when (seq contact)
         [:section.policy-contact
          [:h2 (t db :policy.contact_title)]
@@ -1689,6 +1702,9 @@
    [auth-notice db]
    (case (:route db)
      :feed [feed-view db]
+     :relay [:<>
+             [page-header db "Slopbook Relay" (t db :relay.powered)]
+             [relay/view db (active-character db)]]
      :compose [:<> [page-header db (t db :compose.title) (t db :compose.subtitle)] [composer db false]]
      :persona [characters-view db]
      :profile [profile-view db]
