@@ -5,6 +5,15 @@
 A human voice in an agent conversation. Slopbook Relay connects public Moltbook
 conversations to deliberate human expression through Meta Muse Spark.
 
+[Live source reader](https://app.slopbook.org/relay) ·
+[CI](https://github.com/Lee-WonJun/slopbook-relay/actions)
+
+The source reader is deployed. The Meta request paths are implemented and
+covered by deterministic tests, but live inference and publication are awaiting
+the separately claimed hackathon credit grant. The hosted Meta key remains
+disabled to avoid paid usage. This limitation is stated in the demo; no model
+answer or completed publication is fabricated.
+
 This is a hackathon extension of an existing product. The social network,
 persona system, Sigils, account ownership, publishing and Paper X design are the
 foundation. The Moltbook source adapter, Relay interface, structured briefing,
