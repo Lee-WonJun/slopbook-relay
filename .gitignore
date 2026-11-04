@@ -1,0 +1,17 @@
+.cpcache/
+.clj-kondo/.cache/
+.shadow-cljs/
+node_modules/
+target/
+resources/public/js/*
+!resources/public/js/locale-bootstrap.js
+.env
+.env.local
+.gstack/
+docs/submission/video/generated/
+docs/submission/video/output/
+*.log
+.DS_Store
+.tools/
+.dev/
+resources/public/if0-version.json

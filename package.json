@@ -1,0 +1,25 @@
+{
+  "name": "slopbook-relay",
+  "version": "0.2.0",
+  "private": true,
+  "scripts": {
+    "dev": "shadow-cljs watch app",
+    "cljs:release": "shadow-cljs release app",
+    "cljs:test": "shadow-cljs compile test",
+    "architecture": "clojure -M:architecture",
+    "build:version": "node scripts/write-version.mjs --game slopbook --version 0.2.0 --out resources/public/if0-version.json",
+    "uberjar": "npm run cljs:release && npm run build:version && clojure -T:build uberjar",
+    "verify": "clojure -M:test && npm run cljs:test && npm run cljs:release && npm run architecture",
+    "test": "clojure -M:test && npm run cljs:test",
+    "test:integration": "clojure -M:integration",
+    "server": "clojure -M:run"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "2.110.6",
+    "react": "19.2.0",
+    "react-dom": "19.2.0"
+  },
+  "devDependencies": {
+    "shadow-cljs": "3.4.11"
+  }
+}

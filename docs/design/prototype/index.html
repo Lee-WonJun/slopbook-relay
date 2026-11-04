@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Slopbook Paper X Design Prototype</title>
+  <meta name="description" content="Static visual specification for the approved Slopbook Paper X design system.">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-theme="light">
+  <a class="skip-link" href="#scene-root">Skip to prototype</a>
+
+  <header class="prototype-toolbar" aria-label="Prototype controls">
+    <div>
+      <strong>Slopbook design reference</strong>
+      <span>Static document, not application code</span>
+    </div>
+    <label>
+      Scene
+      <select id="scene-picker">
+        <option value="public-feed">01 · Public entry + feed</option>
+        <option value="signed-feed">02 · Signed-in feed</option>
+        <option value="persona-wizard">03 · Persona editor</option>
+        <option value="writing-states">04 · Writing states</option>
+        <option value="thread-trust">05 · Thread + trust</option>
+        <option value="profile-settings">06 · Profile + settings</option>
+        <option value="search-notifications">07 · Search + notifications</option>
+        <option value="messages">08 · Messages</option>
+        <option value="admin">09 · Admin queue</option>
+      </select>
+    </label>
+    <div class="segmented" aria-label="Theme">
+      <button type="button" data-set-theme="light" aria-pressed="true">Light</button>
+      <button type="button" data-set-theme="dark" aria-pressed="false">Dark</button>
+    </div>
+  </header>
+
+  <main id="scene-root" class="prototype-stage" tabindex="-1">
+    <section class="scene" data-scene="public-feed" aria-labelledby="public-feed-title">
+      <div class="app-shell">
+        <aside class="left-rail" aria-label="Primary navigation">
+          <a class="wordmark" href="#">Slopbook<span>.</span></a>
+          <nav class="nav-list">
+            <a class="nav-item active" href="#"><span class="nav-icon">⌂</span><span>Latest</span></a>
+            <a class="nav-item" href="#"><span class="nav-icon">↗</span><span>Hot</span></a>
+            <a class="nav-item" href="#"><span class="nav-icon">⌕</span><span>Search</span></a>
+          </nav>
+          <div class="rail-spacer"></div>
+          <button class="button secondary wide" type="button">Sign in with Google</button>
+        </aside>
+
+        <div class="center-rail">
+          <header class="mobile-header"><span class="wordmark small">Slopbook.</span><button class="icon-button" aria-label="Sign in">↪</button></header>
+          <header class="page-header"><h1 id="public-feed-title">Latest</h1><button class="text-button" type="button">Hot</button></header>
+
+          <article class="brand-intro">
+            <p class="eyebrow">WELCOME TO SLOPBOOK</p>
+            <h2>Character.<br>Beyond Anonymity.</h2>
+            <p class="intro-copy">You decide what you mean. Your character decides how it sounds.</p>
+            <div class="intro-actions">
+              <button class="button primary" type="button">Create a character</button>
+              <button class="button ghost" type="button">Keep browsing</button>
+            </div>
+          </article>
+
+          <div class="feed" aria-label="Latest posts">
+            <article class="feed-row">
+              <div class="avatar sigil sigil-coral" aria-hidden="true"></div>
+              <div class="feed-content">
+                <header class="identity-line"><strong>Paper Fox</strong><span class="human-marker" aria-label="Owned by a human signed in with Google">♟</span><span>@paperfox · 4m</span></header>
+                <p>I found a receipt in the rain. The ink disappeared, but the tiny argument over noodles survived.</p>
+                <div class="action-row"><button>◯ <span>12</span></button><button>✦ <span>React</span></button><button>↗ <span>Share</span></button><button aria-label="More actions">•••</button></div>
+              </div>
+            </article>
+            <article class="feed-row">
+              <div class="avatar sigil sigil-mint" aria-hidden="true"></div>
+              <div class="feed-content">
+                <header class="identity-line"><strong>Corporate Ghost</strong><span class="human-marker" aria-label="Owned by a human signed in with Google">♟</span><span>@ghost_in_meeting · 18m</span></header>
+                <p>Per my previous haunting, the deadline is still dead.</p>
+                <div class="action-row"><button>◯ <span>7</span></button><button class="reacted">☹ <span>Disgust · 31</span></button><button>↗ <span>Share</span></button><button aria-label="More actions">•••</button></div>
+              </div>
+            </article>
+            <article class="feed-row">
+              <div class="avatar sigil sigil-yellow" aria-hidden="true"></div>
+              <div class="feed-content">
+                <header class="identity-line"><strong>Rotor</strong><span class="human-marker" aria-label="Owned by a human signed in with Google">♟</span><span>@rotor_thinks · 33m</span></header>
+                <p>The idea has not landed. I will continue circling.</p>
+                <div class="action-row"><button>◯ <span>4</span></button><button>✦ <span>React</span></button><button>↗ <span>Share</span></button><button aria-label="More actions">•••</button></div>
+              </div>
+            </article>
+          </div>
+          <nav class="bottom-nav" aria-label="Mobile navigation"><a class="active" href="#">⌂<span>Feed</span></a><a href="#">⌕<span>Search</span></a><a href="#">＋<span>Create</span></a><a href="#">♧<span>Alerts</span></a><a href="#">○<span>Sign in</span></a></nav>
+        </div>
+
+        <aside class="right-rail">
+          <section class="rail-panel">
+            <p class="eyebrow">WHO IS SPEAKING?</p>
+            <h2>Characters, not accounts.</h2>
+            <p>The person behind a character stays private. A small person marker only means someone signed in with Google owns it.</p>
+          </section>
+          <section class="rail-panel compact"><strong>Anonymous comments</strong><p>No human-owned marker. Deletion stays with the original browser.</p></section>
+        </aside>
+      </div>
+    </section>
+
+    <section class="scene" data-scene="signed-feed" aria-labelledby="signed-feed-title" hidden>
+      <div class="app-shell">
+        <aside class="left-rail" aria-label="Primary navigation">
+          <a class="wordmark" href="#">Slopbook<span>.</span></a>
+          <nav class="nav-list">
+            <a class="nav-item active" href="#"><span class="nav-icon">⌂</span><span>Latest</span></a>
+            <a class="nav-item" href="#"><span class="nav-icon">↗</span><span>Hot</span></a>
+            <a class="nav-item" href="#"><span class="nav-icon">◎</span><span>Following</span></a>
+            <a class="nav-item" href="#"><span class="nav-icon">⌕</span><span>Search</span></a>
+            <a class="nav-item" href="#"><span class="nav-icon">♧</span><span>Notifications</span><span class="count-badge">3</span></a>
+            <a class="nav-item" href="#"><span class="nav-icon">✉</span><span>Messages</span></a>
+          </nav>
+          <button class="button primary wide" type="button">New post</button>
+          <div class="rail-spacer"></div>
+          <button class="character-switcher" type="button"><span class="avatar sigil sigil-yellow small-avatar" aria-hidden="true"></span><span><strong>Rotor</strong><small>@rotor_thinks · EN</small></span><span>⌃</span></button>
+        </aside>
+
+        <div class="center-rail">
+          <header class="mobile-header"><button class="avatar-button" aria-label="Switch active character"><span class="avatar sigil sigil-yellow tiny-avatar"></span></button><strong>Latest</strong><button class="icon-button" aria-label="Messages">✉</button></header>
+          <header class="page-header"><h1 id="signed-feed-title">Latest</h1><button class="icon-button" aria-label="Feed settings">⚙</button></header>
+          <button class="compose-entry" type="button"><span class="avatar sigil sigil-yellow" aria-hidden="true"></span><span>What does Rotor mean today?</span><strong>Post</strong></button>
+          <div class="feed">
+            <article class="feed-row">
+              <div class="avatar sigil sigil-blue" aria-hidden="true"></div>
+              <div class="feed-content">
+                <header class="identity-line"><strong>Midnight Poet</strong><span class="human-marker" aria-label="Owned by a human signed in with Google">♟</span><span>@after_last_train · 2m</span></header>
+                <p>The station clock keeps perfect time for people who are no longer here.</p>
+                <div class="media-placeholder"><span>ALT</span><p>Empty platform under cobalt station lights</p></div>
+                <div class="action-row"><button>◯ <span>9</span></button><button>✦ <span>React</span></button><button>↗ <span>Share</span></button><button aria-label="More actions">•••</button></div>
+              </div>
+            </article>
+            <article class="feed-row">
+              <div class="avatar sigil sigil-mint" aria-hidden="true"></div>
+              <div class="feed-content">
+                <header class="identity-line"><strong>Neighborhood Cat</strong><span class="human-marker" aria-label="Owned by a human signed in with Google">♟</span><span>@window_4b · 12m</span></header>
+                <p>Your delivery arrived. I inspected the box. The box is better.</p>
+                <div class="action-row"><button>◯ <span>22</span></button><button class="reacted">☺ <span>Laugh · 48</span></button><button>↗ <span>Share</span></button><button aria-label="More actions">•••</button></div>
+              </div>
+            </article>
+            <article class="feed-row">
+              <div class="avatar sigil sigil-coral" aria-hidden="true"></div>
+              <div class="feed-content">
+                <header class="identity-line"><strong>Gentle Archivist</strong><span class="human-marker" aria-label="Owned by a human signed in with Google">♟</span><span>@small_history · 25m</span></header>
+                <p>Today’s archive: one kind reply sent before anyone could overthink it.</p>
+                <div class="action-row"><button>◯ <span>5</span></button><button>✦ <span>React</span></button><button>↗ <span>Share</span></button><button aria-label="More actions">•••</button></div>
+              </div>
+            </article>
+          </div>
+          <nav class="bottom-nav" aria-label="Mobile navigation"><a class="active" href="#">⌂<span>Feed</span></a><a href="#">⌕<span>Search</span></a><a href="#">＋<span>Create</span></a><a href="#">♧<span>Alerts</span></a><a href="#">○<span>Profile</span></a></nav>
+        </div>
+
+        <aside class="right-rail">
+          <section class="active-card">
+            <div class="avatar sigil sigil-yellow large-avatar" aria-hidden="true"></div>
+            <div><p class="eyebrow">ACTIVE CHARACTER</p><h2>Rotor</h2><p>@rotor_thinks · English</p></div>
+            <div class="persona-inline"><span>Helicopter</span><span>Philosopher</span><span>Restless</span></div>
+            <button class="button primary wide" type="button">Compose as Rotor</button>
+          </section>
+          <section class="rail-panel compact"><span class="status-dot"></span><strong>Character engine available</strong><p>Writes and reactions are operating normally.</p></section>
+        </aside>
+      </div>
+    </section>
+
+    <section class="scene" data-scene="persona-wizard" aria-labelledby="persona-wizard-title" hidden>
+      <div class="app-shell wizard-layout">
+        <aside class="left-rail wizard-rail">
+          <a class="wordmark" href="#">Slopbook<span>.</span></a>
+          <p class="wizard-tagline">Character.<br>Beyond Anonymity.</p>
+          <section class="wizard-roster" aria-label="Your characters">
+            <div class="wizard-roster-head"><strong>Your characters</strong><span>2 / 5</span></div>
+            <button type="button"><span class="avatar sigil sigil-yellow tiny-avatar"></span><span><strong>Rotor</strong><small>@rotor_thinks</small></span></button>
+            <button type="button"><span class="avatar sigil sigil-mint tiny-avatar"></span><span><strong>Moss Radio</strong><small>@moss_radio</small></span></button>
+            <button class="new-character-row" type="button">＋ New character</button>
+          </section>
+        </aside>
+
+        <div class="center-rail wizard-center">
+          <header class="mobile-header"><span class="wordmark small">Slopbook.</span><span>Character editor</span></header>
+          <header class="wizard-header"><p class="eyebrow">CHARACTER EDITOR</p><h1 id="persona-wizard-title">New character</h1><p>Start with a complete draft, then change any field directly.</p></header>
+
+          <section class="form-section randomizer-section">
+            <div class="randomizer-card">
+              <div id="random-sigil" class="avatar sigil sigil-yellow large-avatar" aria-hidden="true"></div>
+              <div class="randomizer-identity"><p class="eyebrow">CURRENT DRAFT</p><h2 id="random-name">Rotor</h2><p id="random-handle">@rotor_thinks</p><div id="random-summary" class="persona-inline"><span>Helicopter</span><span>Philosopher</span><span>Restless</span></div></div>
+              <div class="randomizer-actions"><button id="randomize-persona" class="button primary" type="button">↻ Random</button></div>
+            </div>
+            <p id="randomizer-status" class="randomizer-status" aria-live="polite"></p>
+          </section>
+
+          <fieldset class="form-section chip-field" data-random-group="what" data-max="3">
+            <legend>What are you? <span class="choice-count">2 / 3</span></legend>
+            <p>Identity, living beings, objects, concepts, weather, and vehicles share one field.</p>
+            <div class="choice-category">IDENTITY</div>
+            <div id="what-chip-cloud" class="chip-cloud">
+              <button type="button" aria-pressed="false">Woman</button><button type="button" aria-pressed="false">Non-binary</button><button type="button" aria-pressed="false">Ghost</button><button type="button" aria-pressed="false">Alien</button><button type="button" aria-pressed="false">AI</button><button type="button" aria-pressed="false">Robot</button><button class="selected" type="button" aria-pressed="true">✓ Concept</button><button type="button" aria-pressed="false">Weather</button><button class="selected" type="button" aria-pressed="true">✓ Helicopter</button>
+            </div>
+          </fieldset>
+
+          <fieldset class="form-section chip-field" data-random-group="traits" data-max="5">
+            <legend>Traits <span class="choice-count">3 / 5</span></legend>
+            <div class="choice-category">TEMPERAMENT AND SOCIAL ENERGY</div>
+            <div id="trait-chip-cloud" class="chip-cloud"><button class="selected" type="button" aria-pressed="true">✓ Restless</button><button class="selected" type="button" aria-pressed="true">✓ Reflective</button><button class="selected" type="button" aria-pressed="true">✓ Blunt</button><button type="button" aria-pressed="false">Warm</button><button type="button" aria-pressed="false">Dreamy</button><button type="button" aria-pressed="false">Chaotic</button><button type="button" aria-pressed="false">Cynical</button><button type="button" aria-pressed="false">Mischievous</button><button type="button" aria-pressed="false">Obsessive</button><button type="button" aria-pressed="false">Unhinged</button></div>
+          </fieldset>
+
+          <button class="optional-disclosure" type="button" aria-expanded="false"><span>More details <small>Interests, values, home base, motto</small></span><strong>3 added · ＋</strong></button>
+
+          <footer class="wizard-actions"><button class="button ghost" type="button">Cancel</button><button class="button primary" type="button">Create character</button></footer>
+        </div>
+
+        <aside class="right-rail wizard-preview">
+          <p class="eyebrow">PUBLIC PREVIEW</p>
+          <div id="preview-sigil" class="avatar sigil sigil-yellow profile-avatar" aria-hidden="true"></div>
+          <h2 id="preview-name">Rotor</h2><p id="preview-handle">@rotor_thinks</p>
+          <div class="preview-label">WHAT ARE YOU?</div><div id="preview-what" class="persona-inline"><span>Helicopter</span><span>Concept</span></div>
+          <div class="preview-label">ARCHETYPE</div><p id="preview-archetype">Philosopher</p>
+          <div class="preview-label">TRAITS</div><div id="preview-traits" class="persona-inline"><span>Restless</span><span>Reflective</span><span>Blunt</span></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="scene" data-scene="writing-states" aria-labelledby="writing-states-title" hidden>
+      <div class="app-shell">
+        <aside class="left-rail">
+          <a class="wordmark" href="#">Slopbook<span>.</span></a>
+          <nav class="nav-list"><a class="nav-item active" href="#"><span class="nav-icon">＋</span><span>Writing states</span></a><a class="nav-item" href="#"><span class="nav-icon">⌂</span><span>Back to feed</span></a></nav>
+          <div class="rail-spacer"></div>
+          <button class="character-switcher" type="button"><span class="avatar sigil sigil-yellow small-avatar"></span><span><strong>Rotor</strong><small>@rotor_thinks · EN</small></span><span>⌃</span></button>
+        </aside>
+        <div class="center-rail state-lab">
+          <header class="mobile-header"><span class="avatar sigil sigil-yellow tiny-avatar"></span><strong>Writing states</strong><button class="icon-button" aria-label="Messages">✉</button></header>
+          <header class="page-header"><h1 id="writing-states-title">Writing states</h1><span class="spec-label">SPEC LAB</span></header>
+
+          <section class="compose-panel">
+            <div class="compose-identity"><span class="avatar sigil sigil-yellow"></span><div><strong>Rotor</strong><span>@rotor_thinks · English</span><div class="persona-inline"><span>Helicopter</span><span>Philosophical</span></div></div><button class="text-button">Switch</button></div>
+            <label for="post-intent">Post intent</label>
+            <textarea id="post-intent" rows="4">I keep thinking the new park should have more shade and fewer branded kiosks.</textarea>
+            <div class="counter-row"><span class="processing"><i></i>Your character is choosing words…</span><span>84 / 280</span></div>
+            <button class="button primary wide" type="button" disabled>Publishing…</button>
+          </section>
+
+          <section class="compose-panel error-panel">
+            <div class="panel-kicker">RETRYABLE COMMENT ERROR</div>
+            <div class="compose-identity compact"><span class="avatar sigil sigil-coral"></span><div><strong>Paper Fox</strong><span>@paperfox · English</span></div></div>
+            <label for="comment-intent">Comment intent</label>
+            <textarea id="comment-intent" rows="3">This photo reminds me of hiding from the rain in this neighborhood.</textarea>
+            <p class="inline-error"><strong>That did not publish.</strong> Your input is still in this tab.</p>
+            <div class="button-row"><button class="button ghost" type="button">Edit</button><button class="button secondary" type="button">Try again</button></div>
+          </section>
+
+          <section class="compose-panel dm-panel">
+            <div class="panel-kicker">DIRECT MESSAGE</div>
+            <div class="compose-identity compact"><span class="avatar sigil sigil-mint"></span><div><strong>Corporate Ghost</strong><span>@ghost_in_meeting · English</span></div></div>
+            <label for="dm-intent">Message intent</label><input id="dm-intent" value="Can we move the call to tomorrow morning?">
+            <div class="counter-row"><span>Only transformed messages are stored.</span><span>41 / 180</span></div>
+            <button class="button primary" type="button">Send as Corporate Ghost</button>
+          </section>
+          <nav class="bottom-nav"><a href="#">⌂<span>Feed</span></a><a href="#">⌕<span>Search</span></a><a class="active" href="#">＋<span>Create</span></a><a href="#">♧<span>Alerts</span></a><a href="#">○<span>Profile</span></a></nav>
+        </div>
+        <aside class="right-rail"><section class="rail-panel"><p class="eyebrow">NORMAL COMPOSE</p><h2>Context, not a lecture.</h2><p>Show the active character and language. Reserve explanations for onboarding, failure, and privacy-critical moments.</p></section><section class="rail-panel compact"><strong>Raw intent</strong><p>Preserved in the current tab until success. Never represented as a saved draft.</p></section></aside>
+      </div>
+    </section>
+
+    <section class="scene" data-scene="thread-trust" aria-labelledby="thread-trust-title" hidden>
+      <div class="app-shell">
+        <aside class="left-rail">
+          <a class="wordmark" href="#">Slopbook<span>.</span></a>
+          <nav class="nav-list"><a class="nav-item" href="#"><span class="nav-icon">←</span><span>Back</span></a><a class="nav-item active" href="#"><span class="nav-icon">◯</span><span>Thread</span></a></nav>
+          <div class="rail-spacer"></div><button class="character-switcher"><span class="avatar sigil sigil-yellow small-avatar"></span><span><strong>Rotor</strong><small>@rotor_thinks</small></span><span>⌃</span></button>
+        </aside>
+        <div class="center-rail thread-scene">
+          <header class="mobile-header"><button class="icon-button" aria-label="Back to feed">←</button><strong>Post</strong><button class="icon-button" aria-label="Messages">✉</button></header>
+          <header class="page-header"><h1 id="thread-trust-title">Post</h1><button class="icon-button" aria-label="More thread actions">•••</button></header>
+          <article class="thread-root"><div class="avatar sigil sigil-blue thread-avatar"></div><header class="identity-line"><strong>Midnight Poet</strong><span class="human-marker">♟</span><span>@after_last_train</span></header><p>The station clock keeps perfect time for people who are no longer here.</p><div class="post-meta">11:42 PM · Jul 16, 2026 · 1,204 views</div><div class="post-counts"><span><strong>18</strong> comments</span><span><strong>96</strong> reactions</span></div><div class="action-row large"><button>◯ <span>Comment</span></button><button class="reacted">! <span>Shock · 96</span></button><button>↗ <span>Share</span></button><button aria-label="More post actions">•••</button></div></article>
+          <article class="comment-row"><div class="avatar sigil sigil-coral"></div><div><header class="identity-line"><strong>Paper Fox</strong><span class="human-marker">♟</span><span>@paperfox · 8m</span></header><p>Some clocks are better at keeping ghosts than time.</p><div class="action-row"><button>◯ 3</button><button>✦ React</button><button aria-label="More comment actions">•••</button></div></div></article>
+          <article class="comment-row reply"><div class="avatar sigil sigil-yellow"></div><div><div class="replying">Replying to @paperfox</div><header class="identity-line"><strong>Rotor</strong><span class="human-marker">♟</span><span>@rotor_thinks · 3m</span></header><p>A holding pattern is also a kind of memory.</p><div class="action-row"><button>◯ 1</button><button>✦ React</button><button aria-label="More reply actions">•••</button></div></div></article>
+          <article class="comment-row anonymous"><div class="avatar sigil sigil-ink"></div><div><header class="identity-line"><strong>Quiet Visitor</strong><span>@anonymous · 1m</span></header><p>I missed the last train here once. The vending machine light felt like company.</p><span class="anonymous-label">Anonymous · no human-owned marker</span></div></article>
+          <nav class="bottom-nav"><a href="#">⌂<span>Feed</span></a><a href="#">⌕<span>Search</span></a><a href="#">＋<span>Create</span></a><a href="#">♧<span>Alerts</span></a><a href="#">○<span>Profile</span></a></nav>
+        </div>
+        <aside class="right-rail trust-stack">
+          <section class="sheet-preview"><p class="eyebrow">ANONYMOUS PERSONA</p><h2>Join without a character</h2><label>Output language<select><option>English</option></select></label><label>Personality<input value="quiet and kind"></label><label>Catchphrase<input value="still here"></label><p class="privacy-note">No human-owned marker. If this browser loses its deletion secret, the comment cannot be recovered for self-deletion.</p><button class="button primary wide">Continue to comment</button></section>
+          <section class="rail-panel compact"><strong>Trust actions</strong><div class="stacked-actions"><button class="button ghost">Report this post</button><button class="button danger">Block this character’s owner</button></div><p>Blocking applies to the owner account without revealing their other characters.</p></section>
+        </aside>
+      </div>
+    </section>
+
+    <section class="scene" data-scene="profile-settings" aria-labelledby="profile-settings-title" hidden>
+      <div class="app-shell">
+        <aside class="left-rail">
+          <a class="wordmark" href="#">Slopbook<span>.</span></a>
+          <nav class="nav-list"><a class="nav-item" href="#"><span class="nav-icon">⌂</span><span>Feed</span></a><a class="nav-item active" href="#"><span class="nav-icon">○</span><span>Profile</span></a><a class="nav-item" href="#"><span class="nav-icon">⚙</span><span>Settings</span></a></nav>
+          <div class="rail-spacer"></div><button class="character-switcher"><span class="avatar sigil sigil-yellow small-avatar"></span><span><strong>Rotor</strong><small>@rotor_thinks</small></span><span>⌃</span></button>
+        </aside>
+        <div class="center-rail profile-scene">
+          <header class="mobile-header"><button class="icon-button" aria-label="Back to feed">←</button><strong>Rotor</strong><button class="icon-button" aria-label="More profile actions">•••</button></header>
+          <header class="page-header"><h1 id="profile-settings-title">Rotor</h1><span>84 posts</span></header>
+          <section class="profile-header">
+            <div class="profile-top"><div class="avatar sigil sigil-yellow profile-avatar"></div><button class="button secondary">Edit profile</button></div>
+            <h2>Rotor <span class="human-marker" aria-label="Owned by a human signed in with Google">♟</span></h2><p class="handle">@rotor_thinks</p><p>Circling the city until the idea lands.</p>
+            <div class="profile-persona"><div><span>WHAT ARE YOU?</span><strong>Helicopter · Part-time oracle</strong></div><div><span>ARCHETYPE</span><strong>Philosopher</strong></div><div><span>TRAITS</span><div class="persona-inline"><i>Restless</i><i>Reflective</i><i>Blunt</i></div></div><div><span>INTERESTS</span><strong>Urbanism · Philosophy · Weather</strong></div></div>
+            <div class="follow-counts"><span><strong>186</strong> Following</span><span><strong>2,431</strong> Followers</span></div>
+          </section>
+          <nav class="profile-tabs"><button class="active">Posts</button><button>Replies</button><button>Media</button></nav>
+          <article class="feed-row"><div class="avatar sigil sigil-yellow"></div><div class="feed-content"><header class="identity-line"><strong>Rotor</strong><span class="human-marker">♟</span><span>@rotor_thinks · 2h</span></header><p>The idea has not landed. I will continue circling.</p><div class="action-row"><button>◯ 4</button><button>✦ React</button><button>↗ Share</button><button aria-label="More post actions">•••</button></div></div></article>
+          <nav class="bottom-nav"><a href="#">⌂<span>Feed</span></a><a href="#">⌕<span>Search</span></a><a href="#">＋<span>Create</span></a><a href="#">♧<span>Alerts</span></a><a class="active" href="#">○<span>Profile</span></a></nav>
+        </div>
+        <aside class="right-rail settings-preview">
+          <section class="settings-section"><p class="eyebrow">PUBLIC PROFILE</p><label>Bio<textarea rows="2">Circling the city until the idea lands.</textarea></label><label>Interests<div class="persona-inline editable"><span>Urbanism ×</span><span>Philosophy ×</span><span>Weather ×</span><button aria-label="Add interest">＋</button></div></label></section>
+          <section class="settings-section private-settings"><p class="eyebrow">ONLY YOU AND THE CHARACTER ENGINE</p><label>Voice tones<div class="persona-inline editable"><span>Clipped ×</span><span>Philosophical ×</span></div></label><label>Avoid style<input value="No invented statistics"></label><label>Custom rule<input value="End with a landing image"></label></section>
+          <section class="avatar-settings"><div class="avatar sigil sigil-yellow large-avatar"></div><div><strong>Persona Sigil fallback active</strong><p>Upload processing failed. The deterministic Sigil for Rotor’s current public persona is still visible.</p><div class="button-row"><button class="button secondary">Try upload again</button><button class="button ghost">Keep Sigil</button></div></div></section>
+        </aside>
+      </div>
+    </section>
+
+    <section class="scene" data-scene="search-notifications" aria-labelledby="search-notifications-title" hidden>
+      <div class="app-shell">
+        <aside class="left-rail">
+          <a class="wordmark" href="#">Slopbook<span>.</span></a>
+          <nav class="nav-list"><a class="nav-item" href="#"><span class="nav-icon">⌂</span><span>Feed</span></a><a class="nav-item active" href="#"><span class="nav-icon">⌕</span><span>Search</span></a><a class="nav-item" href="#"><span class="nav-icon">♧</span><span>Notifications</span><span class="count-badge">3</span></a></nav><div class="rail-spacer"></div><button class="character-switcher"><span class="avatar sigil sigil-yellow small-avatar"></span><span><strong>Rotor</strong><small>@rotor_thinks</small></span><span>⌃</span></button>
+        </aside>
+        <div class="center-rail utility-scene">
+          <header class="mobile-header"><strong>Search</strong><button class="icon-button" aria-label="Messages">✉</button></header>
+          <header class="page-header"><h1 id="search-notifications-title">Search</h1><button class="icon-button" aria-label="Search settings">⚙</button></header>
+          <div class="search-box"><span>⌕</span><input aria-label="Search" value="ghost"><button aria-label="Clear search">×</button></div>
+          <nav class="profile-tabs"><button class="active">Characters</button><button>Posts</button></nav>
+          <div class="search-results">
+            <article class="person-row"><div class="avatar sigil sigil-mint"></div><div><strong>Corporate Ghost <span class="human-marker">♟</span></strong><span>@ghost_in_meeting</span><p>Ghost · Critic · awkward · cynical</p></div><button class="button secondary">Follow</button></article>
+            <article class="person-row"><div class="avatar sigil sigil-blue"></div><div><strong>Garden Ghost <span class="human-marker">♟</span></strong><span>@compost_memory</span><p>Ghost · Caretaker · warm · patient</p></div><button class="button secondary">Follow</button></article>
+            <article class="person-row"><div class="avatar sigil sigil-ink"></div><div><strong>Ghost Weather</strong><span>@anonymous result</span><p>Anonymous comments are not searchable as profiles.</p></div><button class="button ghost" disabled>Unavailable</button></article>
+          </div>
+          <nav class="bottom-nav"><a href="#">⌂<span>Feed</span></a><a class="active" href="#">⌕<span>Search</span></a><a href="#">＋<span>Create</span></a><a href="#">♧<span>Alerts</span></a><a href="#">○<span>Profile</span></a></nav>
+        </div>
+        <aside class="right-rail notification-panel">
+          <header><div><p class="eyebrow">NOTIFICATIONS FOR</p><h2>Rotor</h2></div><button class="avatar-button" aria-label="Switch notification character"><span class="avatar sigil sigil-yellow tiny-avatar"></span></button></header>
+          <article class="notification unread"><span class="unread-dot"></span><div class="avatar sigil sigil-coral small-avatar"></div><p><strong>Paper Fox</strong> replied to your post.<small>2m · Unread</small></p></article>
+          <article class="notification unread"><span class="unread-dot"></span><div class="avatar sigil sigil-mint small-avatar"></div><p><strong>Corporate Ghost</strong> reacted with Disgust to your post.<small>9m · Unread</small></p></article>
+          <article class="notification"><span></span><div class="avatar sigil sigil-blue small-avatar"></div><p><strong>Midnight Poet</strong> followed Rotor.<small>1h</small></p></article>
+          <div class="empty-state compact"><strong>You’re caught up.</strong><p>Notifications for your other characters stay in their own inboxes.</p></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="scene" data-scene="messages" aria-labelledby="messages-title" hidden>
+      <div class="app-shell message-shell">
+        <aside class="left-rail">
+          <a class="wordmark" href="#">Slopbook<span>.</span></a>
+          <nav class="nav-list"><a class="nav-item" href="#"><span class="nav-icon">⌂</span><span>Feed</span></a><a class="nav-item active" href="#"><span class="nav-icon">✉</span><span>Messages</span></a></nav><div class="rail-spacer"></div><button class="character-switcher"><span class="avatar sigil sigil-yellow small-avatar"></span><span><strong>Rotor</strong><small>@rotor_thinks</small></span><span>⌃</span></button>
+        </aside>
+        <div class="center-rail conversation-list">
+          <header class="mobile-header"><button class="avatar-button" aria-label="Switch inbox character"><span class="avatar sigil sigil-yellow tiny-avatar"></span></button><strong id="messages-title">Messages</strong><button class="icon-button" aria-label="New conversation">＋</button></header>
+          <header class="page-header"><h1>Messages</h1><button class="icon-button" aria-label="New conversation">＋</button></header>
+          <div class="inbox-context"><span class="avatar sigil sigil-yellow small-avatar"></span><div><strong>Rotor’s inbox</strong><span>3 unread</span></div><button class="text-button">Switch</button></div>
+          <article class="conversation active"><div class="avatar sigil sigil-coral"></div><div><header><strong>Paper Fox</strong><span>2m</span></header><p>I saved the little blue receipt for you.</p></div><span class="unread-dot"></span></article>
+          <article class="conversation"><div class="avatar sigil sigil-mint"></div><div><header><strong>Corporate Ghost</strong><span>1h</span></header><p>Tomorrow morning is approved by the afterlife.</p></div></article>
+          <article class="conversation"><div class="avatar sigil sigil-blue"></div><div><header><strong>Midnight Poet</strong><span>Tue</span></header><p>The train arrived after the metaphor did.</p></div></article>
+          <div class="mobile-message-hint">Select a conversation to open it.</div>
+          <nav class="bottom-nav"><a href="#">⌂<span>Feed</span></a><a href="#">⌕<span>Search</span></a><a href="#">＋<span>Create</span></a><a href="#">♧<span>Alerts</span></a><a href="#">○<span>Profile</span></a></nav>
+        </div>
+        <aside class="right-rail message-detail">
+          <header class="message-header"><div class="avatar sigil sigil-coral"></div><div><strong>Paper Fox <span class="human-marker">♟</span></strong><span>@paperfox</span></div><button class="icon-button" aria-label="Conversation actions">•••</button></header>
+          <div class="message-stream">
+            <div class="message received"><p>The city dropped another small story.</p><span>11:38 PM</span></div>
+            <div class="message sent"><p>Send coordinates. I will circle the evidence.</p><span>11:39 PM · Read</span></div>
+            <div class="message received"><p>I saved the little blue receipt for you.</p><span>11:42 PM</span></div>
+          </div>
+          <form class="message-compose"><div class="compose-identity compact"><span class="avatar sigil sigil-yellow small-avatar"></span><span>Sending as <strong>Rotor</strong></span></div><label for="message-intent">Message intent</label><textarea id="message-intent" rows="3" placeholder="What do you mean?"></textarea><div class="counter-row"><span>Only transformed messages are stored.</span><span>0 / 180</span></div><button class="button primary wide" type="button">Send</button></form>
+        </aside>
+      </div>
+    </section>
+
+    <section class="scene" data-scene="admin" aria-labelledby="admin-title" hidden>
+      <div class="admin-shell">
+        <aside class="admin-nav">
+          <a class="wordmark" href="#">Slopbook<span>.</span> <small>ADMIN</small></a>
+          <nav><a class="active" href="#">Report queue <span>14</span></a><a href="#">Characters</a><a href="#">Accounts</a><a href="#">AI status</a><a href="#">Audit log</a></nav>
+          <div class="rail-spacer"></div><div class="admin-user"><span>OP</span><div><strong>Operator</strong><small>Admin session</small></div></div>
+        </aside>
+        <main class="admin-main">
+          <header class="admin-header"><div><p class="eyebrow">TRUST OPERATIONS</p><h1 id="admin-title">Report queue</h1></div><div class="admin-status"><span class="status-dot"></span>Systems available</div></header>
+          <div class="admin-filters"><button class="active">Open <span>14</span></button><button>Reviewing <span>3</span></button><button>Resolved</button><button>Dismissed</button><label>Reason<select><option>All reasons</option></select></label></div>
+          <div class="report-table" role="table" aria-label="Open reports">
+            <div class="report-head" role="row"><span>Age</span><span>Target</span><span>Reason</span><span>Preview</span><span>Status</span><span>Action</span></div>
+            <article class="report-row priority" role="row"><span data-label="Age"><strong>8m</strong><small>2 reports</small></span><span data-label="Target"><strong>Post</strong><small>@noise_oracle</small></span><span data-label="Reason"><b>Harassment</b></span><span data-label="Preview"><p>Public transformed text is shown as escaped, untrusted content…</p></span><span data-label="Status"><i class="status-pill open">Open</i></span><span data-label="Action"><button class="button primary">Review</button></span></article>
+            <article class="report-row" role="row"><span data-label="Age"><strong>22m</strong><small>1 report</small></span><span data-label="Target"><strong>Character</strong><small>@false_signal</small></span><span data-label="Reason"><b>Impersonation</b></span><span data-label="Preview"><p>Alien · Reporter · public persona profile</p></span><span data-label="Status"><i class="status-pill open">Open</i></span><span data-label="Action"><button class="button secondary">Review</button></span></article>
+            <article class="report-row" role="row"><span data-label="Age"><strong>1h</strong><small>4 reports</small></span><span data-label="Target"><strong>Message</strong><small>Participant report</small></span><span data-label="Reason"><b>Privacy</b></span><span data-label="Preview"><p>Message content available to authorized reviewer only.</p></span><span data-label="Status"><i class="status-pill reviewing">Reviewing</i></span><span data-label="Action"><button class="button ghost">Open</button></span></article>
+            <article class="report-row" role="row"><span data-label="Age"><strong>3h</strong><small>1 report</small></span><span data-label="Target"><strong>Comment</strong><small>Anonymous</small></span><span data-label="Reason"><b>Spam</b></span><span data-label="Preview"><p>Anonymous comment with no owner marker.</p></span><span data-label="Status"><i class="status-pill open">Open</i></span><span data-label="Action"><button class="button secondary">Review</button></span></article>
+          </div>
+          <aside class="action-confirm"><div><p class="eyebrow">ACTION PREVIEW</p><h2>Hide content?</h2><p>This removes the post from public surfaces. It does not suspend the character or expose the owner account.</p></div><div class="button-row"><button class="button ghost">Cancel</button><button class="button danger">Hide content</button></div></aside>
+        </main>
+      </div>
+    </section>
+  </main>
+
+  <script src="prototype.js"></script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+{:paths ["src" "resources"]
+ :deps {org.clojure/clojure {:mvn/version "1.12.0"}
+        http-kit/http-kit {:mvn/version "2.8.1"}
+        metosin/reitit {:mvn/version "0.10.1"}
+        metosin/jsonista {:mvn/version "1.0.0"}
+        com.github.seancorfield/next.jdbc {:mvn/version "1.3.1118"}
+        com.github.seancorfield/honeysql {:mvn/version "2.7.1399"}
+        migratus/migratus {:mvn/version "1.6.7"}
+        org.postgresql/postgresql {:mvn/version "42.7.7"}
+        com.zaxxer/HikariCP {:mvn/version "7.0.2"}
+        com.nimbusds/nimbus-jose-jwt {:mvn/version "10.9.1"}
+        org.slf4j/slf4j-api {:mvn/version "2.0.17"}
+        ch.qos.logback/logback-classic {:mvn/version "1.5.18"}}
+ :aliases
+ {:run {:main-opts ["-m" "slopbook.server"]}
+  :architecture {:main-opts ["-m" "slopbook.architecture"]}
+  :tickets {:main-opts ["-m" "slopbook.tickets"]}
+  :test {:extra-paths ["test"]
+         :main-opts ["-m" "slopbook.test-runner"]}
+  :integration {:extra-paths ["test"]
+                :main-opts ["-m" "slopbook.migration-test-runner"]}
+  :build {:deps {io.github.clojure/tools.build {:mvn/version "0.10.10"}}
+          :ns-default build}
+  :migrate {:main-opts ["-m" "slopbook.platform.migrations"]}}}

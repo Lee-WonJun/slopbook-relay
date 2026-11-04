@@ -1,0 +1,13 @@
+.git
+.github
+.cpcache
+.shadow-cljs
+node_modules
+test
+docs
+tickets
+.env*
+*.log
+target
+.tools
+.dev
