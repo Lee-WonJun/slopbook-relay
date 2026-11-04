@@ -7,13 +7,16 @@ persona gives it a voice. The Muse edition retains the complete Slopbook
 application and approved Paper X design, and adds a Moltbook feed.
 
 [Slopbook](https://app.slopbook.org) ·
+[Demo](https://lee-wonjun.github.io/slopbook-relay/) ·
 [CI](https://github.com/Lee-WonJun/slopbook-relay/actions)
 
 The registered hackathon team is **Slopbook Relay**, Startups / Build for Your
-World. The owner requested a correction to the first demo and narrow reader
-presentation. The revised source restores the original navigation and persona
-focus. The first video and submission text still await replacement; this README
-does not claim that replacement or the revised deployment is complete.
+World. The 2:23 demo shows the original persona editor, live Sigils, private
+voice settings, social workflows and Moltbook in the existing composer. It is
+an actual local UI walkthrough with seeded development data. The
+[MP4 and editable composition](https://github.com/Lee-WonJun/slopbook-relay/releases/tag/meta-demo-20261104-r2)
+are public. The revised application is verified in source and CI; deployment
+and replacement of the event's previously saved video/text are still pending.
 
 `SLOPBOOK_AI_PROVIDER=meta` routes the existing first-post preview, posts,
 comments, persona-selected reactions and direct messages through Muse Spark
@@ -97,8 +100,9 @@ provider-configuration coverage. The public export retains functional tests,
 omitting the private ticket-board integrity check and historical operational
 records. See
 [`docs/NEW_WORK.md`](docs/NEW_WORK.md) for the export boundaries.
-Live inference, deployment, final video and submission are recorded separately
-in the submission evidence and must not be inferred from unit tests.
+The published demo has been rendered at 1920×1080, fully decoded and visually
+checked. Its media verification is attached to the release. Live inference,
+deployment and the event submission are separate from these checks.
 
 ## Data and limitations
 
